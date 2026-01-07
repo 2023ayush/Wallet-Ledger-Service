@@ -6,11 +6,12 @@ import com.wallet.walletservice.auth.dto.RegisterRequest;
 import com.wallet.walletservice.auth.dto.RegisterResponse;
 import com.wallet.walletservice.auth.entity.User;
 import com.wallet.walletservice.auth.repository.UserRepository;
+import com.wallet.walletservice.wallet.entity.Wallet;
+import com.wallet.walletservice.wallet.repository.WalletRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -18,11 +19,16 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final WalletRepository walletRepository; // 🟢 Add WalletRepository
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public AuthService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtService jwtService,
+                       WalletRepository walletRepository) { // 🟢 Inject
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.walletRepository = walletRepository;
     }
 
     // REGISTER
@@ -32,10 +38,17 @@ public class AuthService {
             throw new RuntimeException("Email already registered");
         }
 
+        // 🟢 Save user
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
+
+        // 🟢 Create wallet for new user
+        Wallet wallet = new Wallet();
+        wallet.setUserId(user.getId());
+        wallet.setUserEmail(user.getEmail());
+        walletRepository.save(wallet);
 
         return new RegisterResponse("User registered successfully");
     }
