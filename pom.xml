@@ -89,6 +89,7 @@
 
 
 	<build>
+		<finalName>wallet-ledger-service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
