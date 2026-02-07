@@ -1,38 +1,77 @@
-# Ledger Wallet Service
+📘 Ledger Wallet Service API
 
-A Spring Boot project implementing a wallet system with ledger transactions.
+📍 Postman API Documentation
 
-## Features
+A secure, scalable Spring Boot-based wallet system implementing a ledger-driven transaction model for managing financial operations with audit-proof logging and JWT-based authentication.
 
-- Wallet management (top-up, withdraw)
-- Ledger to record all transactions
-- Transaction status: PENDING, SUCCESS, FAILED
-- Audit-proof system using separate `LedgerAuditService`
-- REQUIRES_NEW transactions ensure FAILED transactions are always logged
-- JWT authentication support (if implemented)
+🚀 Overview
 
-## Project Structure
+The Ledger Wallet Service is a backend API that supports:
 
-- `wallet` - Wallet entity and service logic
-- `ledger` - Ledger entity, service, and repository
-- `audit` - LedgerAuditService for saving FAILED transactions
-- `auth` - User authentication and JWT handling
+Wallet management: Top-up and withdrawal of funds
 
-## API Endpoints
+Peer-to-peer transfers: Transfer amounts between users
 
-- `POST /ledger/{senderId}/transfer` - Transfer amount from sender to receiver
-- `GET /ledger/{userId}/transactions` - Get all transactions for a user
+Ledger transactions: Recording every transaction with a robust ledger model
 
-## Example Request
+Transaction statuses: PENDING, SUCCESS, FAILED
 
-**Transfer Money**
+Audit-proof logging: Ensures failed transactions are always recorded using a separate audit service with REQUIRES_NEW transaction propagation
 
-```http
-POST /ledger/2/transfer
-Content-Type: application/json
-Authorization: Bearer <token>
+JWT Authentication: Secure API access using JSON Web Tokens
 
-{
-  "receiverId": 3,
-  "amount": 200.0
-}
+Modular architecture: Structured into clean, separated modules
+
+This service is designed for use in fintech systems, digital wallets, microservices architectures, and financial platforms requiring transactional integrity and audit logs.
+
+🧠 Key Features
+
+✔ Wallet balance management
+✔ Ledger to track all transactions
+✔ Transaction states: PENDING, SUCCESS, FAILED
+✔ Audit-proof logging for failed transactions
+
+📂 Project Structure
+
+| Module     | Purpose                                          |
+| ---------- | ------------------------------------------------ |
+| **wallet** | Wallet entity and business logic                 |
+| **ledger** | Ledger entity, service, and repository           |
+| **audit**  | LedgerAuditService to record failed transactions |
+| **auth**   | User authentication and JWT handling             |
+
+💡 Transaction Status
+
+| Status      | Meaning                         |
+| ----------- | ------------------------------- |
+| **PENDING** | Transaction initiated           |
+| **SUCCESS** | Transaction completed           |
+| **FAILED**  | Transaction failed but recorded |
+
+🏗 System Design Highlights
+
+Audit-proof transactions: Failed transactions logged even after rollback
+
+Transactional integrity: Uses Spring transactions with REQUIRES_NEW
+
+JWT security: Secures sensitive endpoints
+
+Extensible architecture: Easy to add modules
+
+REST-ful API design: Clean and consistent endpoint definitions
+
+🛠 Tech Stack
+
+| Category      | Technology            |
+| ------------- | --------------------- |
+| Language      | Java                  |
+| Framework     | Spring Boot           |
+| Security      | Spring Security + JWT |
+| Database      | JPA / Hibernate       |
+| Documentation | Postman API           |
+
+
+
+✔ JWT authentication for secure endpoints
+✔ Modular service design
+✔ Clean REST API structure
