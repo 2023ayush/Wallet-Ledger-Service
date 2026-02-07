@@ -1,6 +1,6 @@
-📘 Ledger Wallet Service API
+# 📘 Ledger Wallet Service API
 
-📍 Postman API Documentation
+📍 [Postman API Documentation](https://documenter.getpostman.com/view/33677881/2sBXc8q4Lm)
 
 A secure, scalable Spring Boot-based wallet system implementing a ledger-driven transaction model for managing financial operations with audit-proof logging and JWT-based authentication.
 
@@ -24,14 +24,14 @@ Modular architecture: Structured into clean, separated modules
 
 This service is designed for use in fintech systems, digital wallets, microservices architectures, and financial platforms requiring transactional integrity and audit logs.
 
-🧠 Key Features
+# 🧠 Key Features
 
 ✔ Wallet balance management
 ✔ Ledger to track all transactions
 ✔ Transaction states: PENDING, SUCCESS, FAILED
 ✔ Audit-proof logging for failed transactions
 
-📂 Project Structure
+# 📂 Project Structure
 
 | Module     | Purpose                                          |
 | ---------- | ------------------------------------------------ |
@@ -40,7 +40,7 @@ This service is designed for use in fintech systems, digital wallets, microservi
 | **audit**  | LedgerAuditService to record failed transactions |
 | **auth**   | User authentication and JWT handling             |
 
-💡 Transaction Status
+# 💡 Transaction Status
 
 | Status      | Meaning                         |
 | ----------- | ------------------------------- |
@@ -48,7 +48,7 @@ This service is designed for use in fintech systems, digital wallets, microservi
 | **SUCCESS** | Transaction completed           |
 | **FAILED**  | Transaction failed but recorded |
 
-🏗 System Design Highlights
+# 🏗 System Design Highlights
 
 Audit-proof transactions: Failed transactions logged even after rollback
 
@@ -60,7 +60,7 @@ Extensible architecture: Easy to add modules
 
 REST-ful API design: Clean and consistent endpoint definitions
 
-🛠 Tech Stack
+# 🛠 Tech Stack
 
 | Category      | Technology            |
 | ------------- | --------------------- |
@@ -69,9 +69,3 @@ REST-ful API design: Clean and consistent endpoint definitions
 | Security      | Spring Security + JWT |
 | Database      | JPA / Hibernate       |
 | Documentation | Postman API           |
-
-
-
-✔ JWT authentication for secure endpoints
-✔ Modular service design
-✔ Clean REST API structure
