@@ -4,6 +4,7 @@ import com.wallet.walletservice.common.enums.TransactionStatus;
 import com.wallet.walletservice.ledger.entity.WalletTransaction;
 import com.wallet.walletservice.ledger.repository.LedgerRepository;
 import com.wallet.walletservice.wallet.entity.Wallet;
+import com.wallet.walletservice.wallet.repository.WalletTransactionRepository;
 import com.wallet.walletservice.wallet.service.WalletService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +18,15 @@ public class LedgerService {
     private final WalletService walletService;
     private final LedgerRepository ledgerRepository;
     private final LedgerAuditService ledgerAuditService;
+    private final WalletTransactionRepository txnRepository;
 
     public LedgerService(WalletService walletService,
                          LedgerRepository ledgerRepository,
-                         LedgerAuditService ledgerAuditService) {
+                         LedgerAuditService ledgerAuditService, WalletTransactionRepository txnRepository) {
         this.walletService = walletService;
         this.ledgerRepository = ledgerRepository;
         this.ledgerAuditService = ledgerAuditService;
+        this.txnRepository = txnRepository;
     }
 
     @Transactional
@@ -64,5 +67,9 @@ public class LedgerService {
 
     public List<WalletTransaction> getTransactions(Long userId) {
         return ledgerRepository.findBySenderIdOrReceiverId(userId, userId);
+    }
+
+    public List<WalletTransaction> getTransactionsByUserId(Long userId) {
+        return txnRepository.findBySenderIdOrReceiverIdOrderByCreatedAtDesc(userId, userId);
     }
 }

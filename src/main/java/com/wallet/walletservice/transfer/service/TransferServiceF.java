@@ -3,29 +3,30 @@ package com.wallet.walletservice.transfer.service;
 import com.wallet.walletservice.ledger.entity.WalletTransaction;
 import com.wallet.walletservice.ledger.service.LedgerService;
 import com.wallet.walletservice.transfer.dto.TransferRequest;
-import com.wallet.walletservice.wallet.service.WalletService;
+import com.wallet.walletservice.wallet.entity.Wallet;
+import com.wallet.walletservice.wallet.service.WalletServiceF;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
-
 @Service
-public class TransferService {
+public class TransferServiceF {
 
+    private final WalletServiceF walletServiceF;
     private final LedgerService ledgerService;
-    private final WalletService walletService;
 
-    public TransferService(LedgerService ledgerService, WalletService walletService) {
+    public TransferServiceF(WalletServiceF walletServiceF, LedgerService ledgerService) {
+        this.walletServiceF = walletServiceF;
         this.ledgerService = ledgerService;
-        this.walletService = walletService;
     }
-     @Transactional
-    public WalletTransaction transfer(Long userId, TransferRequest request, String email) {
 
-        // 1️⃣ Ownership check
-        if (!walletService.isOwner(userId, email)) {
-            throw new RuntimeException("Forbidden: You are not the owner of this wallet");
-        }
+    @Transactional
+    public WalletTransaction transfer(TransferRequest request, String email) {
+
+        // 1️⃣ Get sender wallet from JWT
+        Wallet senderWallet = walletServiceF.getWalletByEmail(email);
+        Long senderUserId = senderWallet.getUserId();
 
         // 2️⃣ Amount validation
         if (request.getAmount() <= 0) {
@@ -33,7 +34,7 @@ public class TransferService {
         }
 
         // 3️⃣ Self-transfer check
-        if (userId.equals(request.getReceiverId())) {
+        if (senderUserId.equals(request.getReceiverId())) {
             throw new RuntimeException("Cannot transfer to the same wallet");
         }
 
@@ -42,10 +43,20 @@ public class TransferService {
 
         // 5️⃣ Business action
         return ledgerService.transfer(
-                userId,
+                senderUserId,
                 request.getReceiverId(),
                 request.getAmount(),
                 transactionId
         );
     }
+
+    @Transactional
+    public List<WalletTransaction> getTransactionHistory(String email) {
+        Wallet wallet = walletServiceF.getWalletByEmail(email);
+        Long userId = wallet.getUserId();
+        return ledgerService.getTransactionsByUserId(userId);
+    }
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.wallet.walletservice.wallet.entity;
 
+import com.wallet.walletservice.auth.entity.User;
 import com.wallet.walletservice.common.enums.WalletStatus;
 import jakarta.persistence.*;
 
