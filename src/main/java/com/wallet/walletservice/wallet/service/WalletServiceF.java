@@ -2,20 +2,23 @@ package com.wallet.walletservice.wallet.service;
 
 import com.wallet.walletservice.auth.entity.User;
 import com.wallet.walletservice.auth.repository.UserRepository;
+import com.wallet.walletservice.utility.WalletMetrics;
 import com.wallet.walletservice.wallet.entity.Wallet;
 import com.wallet.walletservice.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
-
 @Service
 public class WalletServiceF {
 
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
+    private final WalletMetrics walletMetrics;  // ← Inject metrics
 
     public WalletServiceF(UserRepository userRepository,
-                         WalletRepository walletRepository) {
+                          WalletRepository walletRepository,
+                          WalletMetrics walletMetrics) {
         this.userRepository = userRepository;
         this.walletRepository = walletRepository;
+        this.walletMetrics = walletMetrics;  // ← Initialize
     }
 
     // 🔹 JWT-based access
@@ -28,16 +31,29 @@ public class WalletServiceF {
     }
 
     public Wallet topUpByEmail(String email, double amount) {
-        Wallet wallet = getWalletByEmail(email);
-        return topUp(wallet.getUserId(), amount);
+        try {
+            Wallet wallet = getWalletByEmail(email);
+            Wallet updated = topUp(wallet.getUserId(), amount);
+            walletMetrics.incrementSuccess();  // ← Success
+            return updated;
+        } catch (Exception e) {
+            walletMetrics.incrementFailed();  // ← Failed
+            throw e;
+        }
     }
 
     public Wallet withdrawByEmail(String email, double amount) {
-        Wallet wallet = getWalletByEmail(email);
-        return withdraw(wallet.getUserId(), amount);
+        try {
+            Wallet wallet = getWalletByEmail(email);
+            Wallet updated = withdraw(wallet.getUserId(), amount);
+            walletMetrics.incrementSuccess();  // ← Success
+            return updated;
+        } catch (Exception e) {
+            walletMetrics.incrementFailed();  // ← Failed
+            throw e;
+        }
     }
 
-    // 🔹 Existing methods (already in your service)
     public Wallet topUp(Long userId, double amount) {
         Wallet wallet = walletRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));

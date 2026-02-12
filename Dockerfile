@@ -1,10 +1,10 @@
-# 1. Use official Java 17 image
+# 1. Use official Java 17 image (LTS, stable for Spring Boot 3)
 FROM eclipse-temurin:17-jdk-alpine
 
-# 2. Set working directory inside container
+# 2. Set working directory
 WORKDIR /app
 
-# 3. Copy Maven wrapper and pom.xml first (for caching)
+# 3. Copy Maven wrapper and pom.xml first (cache layer)
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
 
@@ -17,7 +17,7 @@ COPY src src
 # 6. Build the application
 RUN ./mvnw clean package -DskipTests
 
-# 7. Expose Spring Boot port
+# 7. Expose port
 EXPOSE 8080
 
 # 8. Run the application

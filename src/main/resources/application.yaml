@@ -18,3 +18,31 @@ spring:
 
 server:
   port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus, loggers, info
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+  health:
+    diskspace:
+      enabled: true
+      path: /
+      threshold: 10MB
+    db:
+      enabled: true
+  metrics:
+    enable:
+      all: true
+  info:
+    enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.wallet.walletservice: DEBUG
