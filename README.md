@@ -6,7 +6,8 @@ This project is also designed to demonstrate digital transaction monitoring, sys
 
 📍 [Postman API Documentation](https://documenter.getpostman.com/view/33677881/2sBXc8q4Lm)
 
-📈 [Prometheus & AlertManager Screenshots](docs/Promethus%20and%20AlertManager%20Screenshots.pdf)
+📈 [Prometheus & AlertManager Screenshots](https://github.com/2023ayush/Wallet-Ledger-Service/blob/main/Promethus%20and%20AlertManager%20Screenshots.pdf)
+
 
 <a href="https://raw.githubusercontent.com/2023ayush/Wallet-Ledger-Service/main/applogs.png" target="_blank">
   <img src="https://raw.githubusercontent.com/2023ayush/Wallet-Ledger-Service/main/applogs.png" alt="Application Logs" width="800"/>
