@@ -8,6 +8,7 @@ This project is also designed to demonstrate digital transaction monitoring, sys
 
 📈 [Prometheus & AlertManager Screenshots](docs/Promethus%20and%20AlertManager%20Screenshots.pdf)
 
+[![Application Logs](https://raw.githubusercontent.com/2023ayush/Wallet-Ledger-Service/main/applogs.png)](https://raw.githubusercontent.com/2023ayush/Wallet-Ledger-Service/main/applogs.png)
 
 
 # 🖥️ Service Monitoring & Operations
