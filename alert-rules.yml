@@ -1,0 +1,11 @@
+groups:
+  - name: wallet-alerts
+    rules:
+      - alert: WalletServiceDown
+        expr: up{job="wallet-service"} == 0
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Wallet Service is DOWN"
+          description: "wallet-service is not reachable"

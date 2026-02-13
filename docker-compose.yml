@@ -1,0 +1,72 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: wallet-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: walletdb
+    ports:
+      - "33306:3306"
+    networks:
+      - wallet-network
+    volumes:
+      - ./walletdb_init.sql:/docker-entrypoint-initdb.d/walletdb_init.sql
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  wallet-service:
+    image: wallet-service:latest
+    container_name: wallet-service-container
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://wallet-mysql:3306/walletdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: test
+    ports:
+      - "8080:8080"
+    networks:
+      - wallet-network
+      - monitor-net
+
+  prometheus:
+    image: prom/prometheus:v3.8.1
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alert-rules.yml:/etc/prometheus/alert-rules.yml
+    depends_on:
+      wallet-service:
+        condition: service_started
+      alertmanager:
+        condition: service_started
+    networks:
+      - monitor-net
+
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    networks:
+      - monitor-net
+
+networks:
+  wallet-network:
+    driver: bridge
+  monitor-net:
+    driver: bridge
