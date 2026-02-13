@@ -1,0 +1,9 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: "ui-alerts"
+
+receivers:
+  - name: "ui-alerts"
+    # No webhook, just UI alerts
