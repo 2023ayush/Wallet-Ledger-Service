@@ -1,35 +1,63 @@
-# 📘 Ledger Wallet Service API
-
-📍 [Postman API Documentation](https://documenter.getpostman.com/view/33677881/2sBXc8q4Lm)
+# 📘 Ledger Wallet Service 
 
 A secure, scalable Spring Boot-based wallet system implementing a ledger-driven transaction model for managing financial operations with audit-proof logging and JWT-based authentication.
 
-🚀 Overview
+This project is also designed to demonstrate digital transaction monitoring, system uptime management, and operational troubleshooting skills. It highlights monitoring, logging, alerting, and containerized deployments, making it suitable for ICT roles in fintech or digital services.
 
-The Ledger Wallet Service is a backend API that supports:
+📍 [Postman API Documentation](https://documenter.getpostman.com/view/33677881/2sBXc8q4Lm)
 
-Wallet management: Top-up and withdrawal of funds
+📈 [Prometheus & AlertManager Screenshots](docs/Promethus%20and%20AlertManager%20Screenshots.pdf)
 
-Peer-to-peer transfers: Transfer amounts between users
 
-Ledger transactions: Recording every transaction with a robust ledger model
 
-Transaction statuses: PENDING, SUCCESS, FAILED
+# 🖥️ Service Monitoring & Operations
 
-Audit-proof logging: Ensures failed transactions are always recorded using a separate audit service with REQUIRES_NEW transaction propagation
+1. Metrics Collection & Monitoring
 
-JWT Authentication: Secure API access using JSON Web Tokens
+Collected system and application metrics using Prometheus (CPU, memory, wallet transactions, active connections).
 
-Modular architecture: Structured into clean, separated modules
+Configured Alertmanager to notify on service downtime, anomalies, or critical transaction failures.
 
-This service is designed for use in fintech systems, digital wallets, microservices architectures, and financial platforms requiring transactional integrity and audit logs.
+Maintained dashboards to visualize API health, transaction volumes, and system performance trends.
 
-# 🧠 Key Features
+2. Logging & Analysis
 
-✔ Wallet balance management
-✔ Ledger to track all transactions
-✔ Transaction states: PENDING, SUCCESS, FAILED
-✔ Audit-proof logging for failed transactions
+Collected Windows application and system logs using Filebeat.
+
+Indexed and queried logs in Elasticsearch to identify errors and monitor system behavior.
+
+Visualized operational insights and transaction trends through Kibana dashboards.
+
+3. Database Operations
+
+Monitored MySQL wallet database availability and connection health.
+
+Wrote optimized SQL queries to track wallet transactions and troubleshoot issues.
+
+Ensured continuous database connectivity and service uptime.
+
+4. Containerized Deployment & Operations
+
+Managed services in Docker containers with Docker Compose.
+
+Monitored container health, resource usage, and service availability.
+
+Deployed and maintained the system on an AWS Ubuntu VM with operational reliability.
+
+5. Business Metrics Tracking
+
+Tracked user login attempts, successful logins, and wallet transactions.
+
+Monitored failed transactions to ensure audit compliance and operational integrity
+
+
+# 🧠 System & Operations Features
+
+✔ Wallet balance tracking and transaction monitoring
+✔ Ledger maintains a full record of all transactions for auditing
+✔ Transaction states monitored: PENDING, SUCCESS, FAILED
+✔ Audit-proof logging ensures failed transactions are captured and visible for troubleshooting
+
 
 # 📂 Project Structure
 
@@ -50,22 +78,16 @@ This service is designed for use in fintech systems, digital wallets, microservi
 
 # 🏗 System Design Highlights
 
-Audit-proof transactions: Failed transactions logged even after rollback
+- **Audit-proof transactions**: Failed transactions are logged even after rollback to ensure traceability.  
+- **Transactional integrity**: Uses Spring transactions with `REQUIRES_NEW` to maintain consistent ledger states.  
+- **JWT security**: Secures sensitive endpoints with token-based authentication.  
+- **Extensible architecture**: Modular design makes it easy to add new services or features.  
+- **RESTful API design**: Clean, consistent, and standardized endpoints for integration.  
+- **Service Monitoring**: Metrics collected using Prometheus and alerts configured in Alertmanager to ensure uptime.  
+- **Logging & Analysis**: Filebeat collects logs, Elasticsearch indexes them, and Kibana visualizes insights for operational troubleshooting.  
+- **Containerized Deployment**: Docker and Docker Compose used for consistent environments; deployed on AWS Ubuntu VM.  
+- **Database Reliability**: Monitored MySQL wallet database, ensured connectivity, and used optimized queries for faster transaction tracking.  
+- **Business Metrics Tracking**: Logged user actions, wallet transactions, and failed operations to maintain audit compliance and operational transparency.  
+- **Operational Readiness**: Designed to demonstrate system uptime management, alerting, and monitoring suitable for ICT or fintech operations roles.  
 
-Transactional integrity: Uses Spring transactions with REQUIRES_NEW
 
-JWT security: Secures sensitive endpoints
-
-Extensible architecture: Easy to add modules
-
-REST-ful API design: Clean and consistent endpoint definitions
-
-# 🛠 Tech Stack
-
-| Category      | Technology            |
-| ------------- | --------------------- |
-| Language      | Java                  |
-| Framework     | Spring Boot           |
-| Security      | Spring Security + JWT |
-| Database      | JPA / Hibernate       |
-| Documentation | Postman API           |
